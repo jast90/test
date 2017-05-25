@@ -1,5 +1,6 @@
 package cn.test.test;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.util.concurrent.Executors;
 /**
  * Created by zhiwen on 2017/5/25.
  */
+@Ignore
 public class TomcatTest {
 
     @Test
@@ -26,16 +28,18 @@ public class TomcatTest {
         final CyclicBarrier barrier = new CyclicBarrier(512);
         ExecutorService pool = Executors.newCachedThreadPool();
         for (int i = 0; i < 512; i++) {
-            pool.execute(() -> {
-                        try {
-                            barrier.await();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (BrokenBarrierException e) {
-                            e.printStackTrace();
-                        }
-                        getUrl();
-                    }
+            pool.execute(new Runnable() {
+                             public void run() {
+                                 try {
+                                     barrier.await();
+                                 } catch (InterruptedException e) {
+                                     e.printStackTrace();
+                                 } catch (BrokenBarrierException e) {
+                                     e.printStackTrace();
+                                 }
+                                 TomcatTest.this.getUrl();
+                             }
+                         }
             );
         }
         pool.shutdown();
@@ -47,11 +51,11 @@ public class TomcatTest {
 
     public void getUrl() {
         try {
-            System.out.println(Thread.currentThread()+" 开始执行时间：" + System.currentTimeMillis());
+            System.out.println(Thread.currentThread() + " 开始执行时间：" + System.currentTimeMillis());
             URL url = new URL("http://192.168.99.100:8081/test/");
             URLConnection connection = url.openConnection();
             connection.connect();
-            System.out.println(Thread.currentThread()+" 建立连接成功");
+            System.out.println(Thread.currentThread() + " 建立连接成功");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
