@@ -1,13 +1,10 @@
 package cn.test.config;
 
-import org.springframework.session.web.context.AbstractHttpSessionApplicationInitializer;
-import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
-import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.filter.DelegatingFilterProxy;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRegistration;
 
 /**
  * Created by zhiwen on 2017/5/25.
@@ -15,7 +12,7 @@ import javax.servlet.ServletRegistration;
 public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{Config.class};
+        return new Class[]{SessionConfig.class};
     }
 
     protected Class<?>[] getServletConfigClasses() {
@@ -27,5 +24,11 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
         return new String[]{"/"};
     }
 
-
+    @Override
+    public void onStartup(ServletContext servletContext) throws ServletException {
+        servletContext.addFilter("springSessionRepositoryFilter"
+                , new DelegatingFilterProxy("springSessionRepositoryFilter"))
+                .addMappingForUrlPatterns(null, true, "/*");
+        super.onStartup(servletContext);
+    }
 }

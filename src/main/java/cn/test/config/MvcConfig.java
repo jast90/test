@@ -15,7 +15,7 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
  */
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"cn.test.controller"})
+@ComponentScan(basePackages = {"cn.test.*.controller"})
 public class MvcConfig extends WebMvcConfigurerAdapter {
 
     @Override
@@ -25,8 +25,8 @@ public class MvcConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
-        // registry.enableContentNegotiation(new MappingJackson2JsonView());
-        registry.freeMarker().cache(false).suffix(".ftl");
+        registry.enableContentNegotiation(new MappingJackson2JsonView());
+        registry.freeMarker().cache(false);
     }
 
     @Bean
