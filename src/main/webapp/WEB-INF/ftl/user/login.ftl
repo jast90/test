@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>login</title>
 </head>
 <#assign ctx = springMacroRequestContext.contextPath/>
 <body>
@@ -15,6 +15,6 @@ ${Session.name}
     <input type="submit" value="提交">
 </form>
 </#if>
-
+<p>192.168.99.100:8080</p>
 </body>
 </html>

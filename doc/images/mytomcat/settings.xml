@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+	<servers>
+ 
+		<server>
+			<id>TomcatServer</id>
+			<username>jast-script</username>
+			<password>zzw@2017</password>
+		</server>
+ 
+	</servers>
+</settings>
