@@ -26,9 +26,9 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
 
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException {
-        servletContext.addFilter("springSessionRepositoryFilter"
+        /*servletContext.addFilter("springSessionRepositoryFilter"
                 , new DelegatingFilterProxy("springSessionRepositoryFilter"))
-                .addMappingForUrlPatterns(null, true, "/*");
+                .addMappingForUrlPatterns(null, true, "*//*");*/
         super.onStartup(servletContext);
     }
 }

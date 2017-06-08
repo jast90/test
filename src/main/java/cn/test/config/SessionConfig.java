@@ -7,9 +7,9 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 /**
  * Created by zhiwen on 2017/5/25.
  */
-@EnableRedisHttpSession
+//@EnableRedisHttpSession
 public class SessionConfig {
-    @Bean
+//    @Bean
     public LettuceConnectionFactory connectionFactory() {
         LettuceConnectionFactory factory = new LettuceConnectionFactory();
         factory.setHostName("192.168.99.100");
