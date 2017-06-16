@@ -6,12 +6,12 @@
         </Console>
         <Kafka name="Kafka" topic="log-test">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{1.} - %msg%n"/>
-            <Property name="bootstrap.servers">localhost:9092</Property>
+            <Property name="bootstrap.servers">192.168.99.100:9092</Property>
         </Kafka>
     </Appenders>
     <Loggers>
         <Root level="DEBUG">
-            <AppenderRef ref="Console"/>
+            <!--<AppenderRef ref="Console"/>-->
             <AppenderRef ref="Kafka"/>
         </Root>
         <Logger name="org.apache.kafka" level="INFO" />
