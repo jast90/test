@@ -10,15 +10,18 @@ docker pull mysql
 ```docker
 docker run -t --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD='123456' -d  mysql
 ```
-### 3. 实现主从复制
-- 创建主mysql服务器
+### <span id="3">3. 实现主从复制</span>
+- 创建主mysql服务器（指定配置文件）
 ```docker
-docker run -t --name mysql-master -p 3307:3306 -e MYSQL_ROOT_PASSWORD='123456' -d  mysql
+docker run -t --name mysql-master -v /e/code/test/doc/docker-mysql-replication/mysql-cnf/master:/etc/mysql/conf.d -p 3306:3306 -e MYSQL_ROOT_PASSWORD='123456' -d mysql
 ```
-- 创建从mysql服务器
+- 创建从mysql服务器（指定配置文件）
 ```docker
-docker run -t --name mysql-slave -p 3308:3306 -e MYSQL_ROOT_PASSWORD='123456' -d  mysql
+docker run -t --name mysql-slave -v /e/code/test/doc/docker-mysql-replication/mysql-cnf/slave:/etc/mysql/conf.d -p 3307:3306 -e MYSQL_ROOT_PASSWORD='123456' -d mysql
 ```
+遇到的坑：
+`docker run -v`主机中某个目录被多次指定时会出现文件编程目录的问题？究竟什么原因暂未知。
+
 ### 4. mysql实现主从复制原理
 通过binary logging来实现复制
 
@@ -40,12 +43,14 @@ server-id=1
 #log-bin=mysql-bin #没必要启用 binary logging除非 从服务器 要作为其他服务器的 主服务器
 server-id=2 
 ```
-#### 4.3 docker如何将上面的配置加入到之前创建的`mysql-master`及`mysql-slave`
+
+#### 4.3 docker如何将上面的配置加入到之前创建的`mysql-master`及`mysql-slave`（废弃，请不要参考,实现请参考 [3. 实现主从复制](#3)）
 直接将文件复制到容器的相应木目录下,然后重启容器
 ```docker
 docker cp master.cnf mysql-master:/etc/mysql/my.cnf 
 docker cp slave.cnf mysql-master:/etc/mysql/my.cnf 
-```
+``` 
+
 #### 4.4 主服务器创建一个具有复制权相的用户
 - docker进入mysql命令行
 ```docker
@@ -68,7 +73,7 @@ SHOW SLAVE STATUS\G       -- \G用来代替";"，能把查询结果按键值的�
 ```
 由于刚开始没有配置主服务器的端口导致如下错误运行结果
 ```
-mysql> mysql> show slave status \G
+mysql> show slave status \G
 *************************** 1. row ***************************
                Slave_IO_State: Connecting to master
                   Master_Host: 192.168.99.100
