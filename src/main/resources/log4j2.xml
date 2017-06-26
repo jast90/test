@@ -4,15 +4,15 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{1.} - %msg%n"/>
         </Console>
-        <Kafka name="Kafka" topic="log-test">
+       <!-- <Kafka name="Kafka" topic="log-test">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{1.} - %msg%n"/>
             <Property name="bootstrap.servers">192.168.99.100:9092</Property>
-        </Kafka>
+        </Kafka>-->
     </Appenders>
     <Loggers>
         <Root level="DEBUG">
-            <!--<AppenderRef ref="Console"/>-->
-            <AppenderRef ref="Kafka"/>
+            <AppenderRef ref="Console"/>
+            <!--<AppenderRef ref="Kafka"/>-->
         </Root>
         <Logger name="org.apache.kafka" level="INFO" />
     </Loggers>

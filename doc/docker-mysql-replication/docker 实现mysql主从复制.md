@@ -13,11 +13,12 @@ docker run -t --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD='123456' -d  mysq
 ### <span id="3">3. 实现主从复制</span>
 - 创建主mysql服务器（指定配置文件）
 ```docker
-docker run -t --name mysql-master -v /e/code/test/doc/docker-mysql-replication/mysql-cnf/master:/etc/mysql/conf.d -p 3306:3306 -e MYSQL_ROOT_PASSWORD='123456' -d mysql
+docker run --name mysql-master01 -v /d/master:/etc/mysql/conf.d -p 3306:3306 -e MYSQL_ROOT_PASSWORD='123456' -e MYSQL_ROOT_HOST='%' -d mysql
 ```
 - 创建从mysql服务器（指定配置文件）
 ```docker
-docker run -t --name mysql-slave -v /e/code/test/doc/docker-mysql-replication/mysql-cnf/slave:/etc/mysql/conf.d -p 3307:3306 -e MYSQL_ROOT_PASSWORD='123456' -d mysql
+docker rm -fv mysql-slave
+docker run --name mysql-slave -v /e/mysql-cnf/slave:/etc/mysql/conf.d -p 3307:3306 -e MYSQL_ROOT_PASSWORD='123456' -e MYSQL_ROOT_HOST='%' -d mysql
 ```
 遇到的坑：
 `docker run -v`主机中某个目录被多次指定时会出现文件编程目录的问题？究竟什么原因暂未知。

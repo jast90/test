@@ -12,7 +12,7 @@ import javax.servlet.ServletException;
 public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{SessionConfig.class};
+        return new Class[]{SessionConfig.class, DataSourceConfig.class};
     }
 
     protected Class<?>[] getServletConfigClasses() {

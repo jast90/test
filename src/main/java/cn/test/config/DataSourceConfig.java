@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 
 import javax.sql.DataSource;
@@ -49,6 +50,10 @@ public class DataSourceConfig {
     @Value("${db.slave2.password}")
     private String slave2DBPassword;
 
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertyConfigInDev() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
     /**
      * 通用配置
@@ -101,13 +106,13 @@ public class DataSourceConfig {
 
     @Bean(name = "slave1", initMethod = "init", destroyMethod = "close")
     public DataSource slave1DataSource() {
-        return dataSourceConfig(slave1DBUrl, slave1DBUsername, slave1DBUsername);
+        return dataSourceConfig(slave1DBUrl, slave1DBUsername, slave1DBPassword);
     }
 
-    @Bean(name = "slave2", initMethod = "init", destroyMethod = "close")
+    /*@Bean(name = "slave2", initMethod = "init", destroyMethod = "close")
     public DataSource slave2DataSource() {
         return dataSourceConfig(slave2DBUrl, slave2DBUsername, slave2DBUsername);
-    }
+    }*/
 
     @Bean
     public DataSource dataSource() {
@@ -116,7 +121,7 @@ public class DataSourceConfig {
         Map<Object, Object> map = new HashMap<Object, Object>();
         map.put("master", masterDataSource());
         map.put("slave1", slave1DataSource());
-        map.put("slave2", slave2DataSource());
+        /*map.put("slave2", slave2DataSource());*/
         dataSource.setTargetDataSources(map);
         return dataSource;
     }
